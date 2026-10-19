@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="DocForge creates a README and project explainer from a project zip file.">
+    <title>DocForge — project documentation</title>
+    <link rel="stylesheet" href="/styles.css">
+    <script src="/app.js" defer></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand" href="/" aria-label="DocForge home">
+          <span class="brand-mark" aria-hidden="true">D</span>
+          <span>DocForge</span>
+        </a>
+        <p class="tagline">Clear docs from your code</p>
+      </div>
+    </header>
+
+    <main class="container page-content">
+      <section class="intro" aria-labelledby="page-title">
+        <p class="eyebrow">Project documentation, made simple</p>
+        <h1 id="page-title">Turn a project zip into helpful documentation.</h1>
+        <p class="intro-copy">Upload a ZIP file and DocForge will generate a README and a plain-language project explainer.</p>
+      </section>
+
+      <div id="status" class="status" role="status" aria-live="polite" hidden></div>
+
+      <section class="workspace" aria-label="Documentation workspace">
+        <div class="primary-column">
+          <section class="card upload-card" aria-labelledby="upload-title">
+            <div class="card-heading">
+              <div>
+                <p class="section-kicker">Step 1</p>
+                <h2 id="upload-title">Upload a project</h2>
+              </div>
+              <span class="step-badge" aria-hidden="true">1</span>
+            </div>
+            <p class="muted">Choose a <strong>.zip</strong> file. Your project stays on this server while it is scanned.</p>
+            <form id="scan-form" class="upload-form">
+              <label class="file-drop" for="project-file" id="file-drop">
+                <span class="upload-icon" aria-hidden="true">↑</span>
+                <span class="file-prompt"><strong>Choose a ZIP file</strong><span>or drag and drop it here</span></span>
+                <span class="file-name" id="file-name">No file selected</span>
+                <input id="project-file" name="file" type="file" accept=".zip,application/zip" required>
+              </label>
+              <button class="button button-primary" type="submit" id="scan-button">Generate documentation</button>
+            </form>
+          </section>
+
+          <section class="card results-card" aria-labelledby="results-title">
+            <div class="card-heading results-heading">
+              <div>
+                <p class="section-kicker">Step 2</p>
+                <h2 id="results-title">Your documentation</h2>
+              </div>
+              <span class="step-badge" aria-hidden="true">2</span>
+            </div>
+            <div id="empty-results" class="empty-state">
+              <span class="empty-icon" aria-hidden="true">✦</span>
+              <h3>Nothing generated yet</h3>
+              <p>Upload a project above to see its README and project explainer here.</p>
+            </div>
+            <div id="document-results" hidden>
+              <div class="document-toolbar">
+                <p id="selected-scan-label" class="muted"></p>
+                <a id="download-button" class="button button-secondary" href="#" download>Download README</a>
+              </div>
+              <div class="document-grid">
+                <article class="document-panel">
+                  <h3>README</h3>
+                  <pre id="readme-content" class="document-content" tabindex="0"></pre>
+                </article>
+                <article class="document-panel">
+                  <h3>Project Explainer</h3>
+                  <div id="explainer-content" class="document-content explainer-content" tabindex="0"></div>
+                </article>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <aside class="card history-card" aria-labelledby="history-title">
+          <div class="card-heading">
+            <div>
+              <p class="section-kicker">Your work</p>
+              <h2 id="history-title">Scan history</h2>
+            </div>
+            <span class="history-count" id="history-count">0</span>
+          </div>
+          <p class="muted">Select an earlier scan to view its documentation.</p>
+          <div id="history-list" class="history-list" aria-live="polite">
+            <p class="history-empty">No scans yet.</p>
+          </div>
+        </aside>
+      </section>
+    </main>
+
+    <footer class="site-footer"><div class="container"><p>DocForge · Keep your project understandable.</p></div></footer>
+  </body>
+</html>

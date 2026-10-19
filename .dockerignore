@@ -1,0 +1,7 @@
+node_modules
+.git
+data
+*.db
+.env
+coverage
+README.md
