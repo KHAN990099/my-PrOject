@@ -95,6 +95,6 @@ app.post('/api/scan', (req, res) => upload.single('project')(req, res, async (up
 
 app.use((error, _req, res, _next) => res.status(500).json({ error: 'Unexpected server error.' }));
 
-if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) app.listen(port, () => console.log(`DocForge running at http://localhost:${port}`));
+if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) app.listen(port, '0.0.0.0', () => console.log(`DocForge running at http://localhost:${port}`));
 
 export { app, safeZipEntryName };

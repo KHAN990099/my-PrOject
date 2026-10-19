@@ -139,6 +139,53 @@ docker run --rm -p 3000:3000 -v "${PWD}/data:/app/data" docforge
 
 The Docker build runs a SQLite in-memory smoke check using Node's built-in `node:sqlite` module before copying the application. The image exposes port `3000` and starts with `node src/server.js`.
 
+## Deploy to Render as a Docker web service
+
+1. Push this repository to GitHub.
+2. In Render, choose **New +** → **Web Service** and connect `KHAN990099/my-PrOject`.
+3. Enter these values:
+
+   | Render field | Value |
+   | --- | --- |
+   | Name | `docforge` (or another available service name) |
+   | Region | Choose the region closest to your users |
+   | Branch | `main` |
+   | Root Directory | Leave blank |
+   | Runtime | `Docker` |
+   | Dockerfile Path | `./Dockerfile` |
+   | Docker Context | `.` |
+   | Docker Command | Leave blank; use the Dockerfile `CMD` |
+   | Pre-Deploy Command | Leave blank |
+   | Instance Type | Choose `Free` for a temporary demo, or a paid instance for persistent SQLite storage |
+
+4. Add these environment variables in Render's **Environment Variables** section:
+
+   | Key | Value |
+   | --- | --- |
+   | `DOCFORGE_DATA_DIR` | `/app/data` |
+   | `DOCFORGE_MAX_UPLOAD_MB` | `10` |
+   | `DOCFORGE_MAX_FILES` | `1000` |
+
+   Do **not** add a `PORT` variable. Render supplies `PORT` automatically, and the server reads `process.env.PORT`. The Dockerfile's `3000` is only the fallback/default and exposed container port.
+
+5. For scan history to survive deploys and restarts, add a Render persistent disk under **Disks**:
+
+   - Mount path: `/app/data`
+   - Size: `1 GB` or larger
+
+   Persistent disks require a paid Render instance. Without a disk, the web service still works, but its SQLite history can be lost when Render replaces the instance.
+
+6. Click **Create Web Service**. Render will build the Docker image and start `node src/server.js` from the Dockerfile.
+7. Open the generated `https://...onrender.com` URL. Verify the deployment with:
+
+   ```text
+   https://YOUR-RENDER-SERVICE.onrender.com/api/health
+   ```
+
+   It should return `{"ok":true,"service":"docforge"}`.
+
+The app explicitly binds to `0.0.0.0`, reads Render's injected port, and resolves `DOCFORGE_DATA_DIR` for SQLite. No GitHub token, API key, password, or other secret belongs in the repository or Dockerfile.
+
 ## License
 
 This buildathon project is provided for educational and open-source experimentation.
