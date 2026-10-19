@@ -58,7 +58,7 @@ export async function scanProject(root, options = {}) {
   records.sort((a, b) => a.path.localeCompare(b.path));
   const directories = [...new Set(records.map((record) => path.posix.dirname(record.path)).filter((dir) => dir !== '.'))].sort();
   const languages = [...new Set(records.map((record) => record.language).filter((lang) => lang !== 'text'))].sort();
-  const title = path.basename(path.resolve(root)) || 'Project';
+  const title = options.title || path.basename(path.resolve(root)) || 'Project';
   return { title, files: records, directories, languages, readme: makeReadme(title, records, languages), explainer: makeExplainer(title, records, directories) };
 }
 

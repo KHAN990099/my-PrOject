@@ -81,7 +81,8 @@ app.post('/api/scan', (req, res) => upload.single('project')(req, res, async (up
   let temp;
   try {
     temp = await extractZip(req.file.buffer);
-    const result = await scanProject(temp, { maxFiles });
+    const uploadedTitle = path.basename(req.file.originalname, path.extname(req.file.originalname)).replace(/[^a-z0-9 _-]/gi, '-').trim() || 'Uploaded project';
+    const result = await scanProject(temp, { maxFiles, title: uploadedTitle });
     const id = saveScan(db, result);
     return res.status(201).json({ scan: publicScan({ ...result, id, createdAt: new Date().toISOString(), fileCount: result.files.length }) });
   } catch (error) {

@@ -1,0 +1,8 @@
+{
+  "name": "hello-docforge-sample",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node src/index.js"
+  }
+}
